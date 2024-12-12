@@ -1,0 +1,38 @@
+
+<div style="display: flex; justify-content: space-between; padding: 20px; gap: 20px;">
+  <!-- Recipe List -->
+  <div style="block-size: 50%; width: 70%;">
+    @for (recipe of favoriterecipes; track recipe.recipe.name; let i = $index) {
+      <div #recipeDiv class="recipes" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; background-color: #fdfdfd; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <button type="button"
+                appRecipeButton
+                (click)="onSelect(recipe.recipe)"
+                [ngStyle]="recipe.recipe === selectedRecipe ? {color:'#000000'} : {color:'#ff5733'}"
+                [ngClass]="recipe.recipe === selectedRecipe ? 'selected-recipe' : ''"
+                style="width: 100%; text-align: left; border: none; background: none; cursor: pointer; padding: 0;">
+          <span class="id" style="font-weight: bold; font-size: 1.1em;">{{recipe.recipe.id}}.</span> <br>
+          <span class="name" style="font-size: 1.2em; font-weight: bold;">Name: {{recipe.recipe.name}}</span><br>
+          <span class="preview" style="font-size: 1em; color: #555;">Preview: {{recipe.recipe.preview}}</span><br>
+          <span class="rating" style="font-size: 1em; color: #555;">Author: {{recipe.recipe.author}}</span><br>
+          <div>
+            @if(recipe.recipe.picpath) {
+              <img class="flag" [src]="recipe.recipe.picpath" alt="Recipe Image" style="max-width: 100px; max-height: 100px; margin-top: 10px; border-radius: 5px;">
+            } @else {
+              <span style="color: #999; font-size: 0.9em;">Image Missing</span>
+            }
+          </div>
+          <div style="margin-top: 10px;">
+            <button type="button" routerLink="/recipe/{{recipe.recipe.id}}" style="padding: 8px 15px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+              Details
+            </button>
+          </div>
+          <div style="margin-top: 10px;">
+            <button type="button" (click)="removeFavorite(recipe.id)" style="padding: 8px 15px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+              Remove-favorite
+            </button>
+          </div>
+        </button>
+      </div>
+    }
+  </div>
+</div>

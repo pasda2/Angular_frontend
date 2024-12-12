@@ -1,0 +1,77 @@
+
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" style="max-width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+  <!-- Recipe Name -->
+  <div style="margin-bottom: 15px;">
+    <label for="name" style="font-weight: bold;">Recipe Name:</label>
+    <input id="name" formControlName="name" type="text" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <!-- Recipe Preview -->
+  <div style="margin-bottom: 15px;">
+    <label for="preview" style="font-weight: bold;">Preview:</label>
+    <input id="preview" formControlName="preview" type="text" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <!-- Recipe Picpath -->
+  <div style="margin-bottom: 15px;">
+    <label for="picpath" style="font-weight: bold;">Image URL:</label>
+    <input id="picpath" formControlName="picpath" type="text" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <!-- Recipe Description -->
+  <div style="margin-bottom: 15px;">
+    <label for="description" style="font-weight: bold;">Description:</label>
+    <textarea id="description" formControlName="description" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; height: 120px;"></textarea>
+  </div>
+
+  <!-- Recipe Rating -->
+  <div style="margin-bottom: 15px;">
+    <label for="author" style="font-weight: bold;">Rating:</label>
+    <input id="author" formControlName="author" type="text" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <!-- Steps -->
+  <div formArrayName="steps" style="margin-bottom: 20px;">
+    <h3 style="font-size: 1.2em; margin-bottom: 10px;">Steps</h3>
+    @for (step of getSteps().controls;track i; let i=$index) {
+      <div [formGroupName]="i" style="margin-bottom: 20px;">
+        <h4 style="font-size: 1.1em; margin-bottom: 8px;">Step {{i + 1}}</h4>
+        <div style="margin-bottom: 10px;">
+          <label for="step-description-{{ i }}" style="font-weight: bold;">Step Description:</label>
+          <input id="step-description-{{ i }}" formControlName="description" type="text" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+        </div>
+
+        <!-- Ingredients for each step -->
+        <div formArrayName="ingredients" style="margin-top: 15px;">
+          <h4 style="font-size: 1.1em; margin-bottom: 8px;">Ingredients for Step {{ i + 1 }}</h4>
+          @for (ingred of getIngredients(i).controls;track j; let j=$index) {
+            <div [formGroupName]="j" style="margin-bottom: 10px;">
+              <select formControlName="selectedingred" (change)="addMainIngredient()" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                @for (ingred of ingredlist;track t;let t=$index) {
+                  <option [value]="ingred.id">{{ ingred.name + ': ' + ingred.description }}</option>
+                }
+              </select>
+            </div>
+          }
+          <button type="button" (click)="addStepIngredient(i)" style="padding: 10px 15px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">Add Ingredient</button>
+        </div>
+      </div>
+    }
+
+    <button type="button" (click)="addStep()" style="padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px;">Add Step</button>
+  </div>
+
+  <!-- Main Ingredients -->
+  <div formArrayName="ingredients" style="margin-bottom: 20px;">
+    <h3 style="font-size: 1.2em; margin-bottom: 10px;">Main Ingredients</h3>
+    @for (ingredient of getAllIngredients().controls;track k; let k=$index) {
+      <div [formGroupName]="k" style="margin-bottom: 10px;">
+        <label>{{ ingredient.value.name + ': ' + ingredient.value.description }}</label>
+      </div>
+    }
+  </div>
+
+  <button type="submit" style="width: 100%; padding: 12px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em;">
+    Submit
+  </button>
+</form>

@@ -1,0 +1,86 @@
+<!-- recipe.component.html -->
+
+<!--div style="display: flex">
+  <div style="block-size: 50%">
+    @for (recipe of recipes; track recipe.name; let i = $index) {
+      <div #recipeDiv class="recipes">
+        <button type="button"
+                appRecipeButton
+                (click)="onSelect(recipe)"
+                [ngStyle]="recipe === selectedRecipe ? {color:'#000000'} : {color:'#ff5733'}"
+                [ngClass]="recipe === selectedRecipe ? 'selected-recipe' : ''">
+          <span class="id">{{recipe.id}}.</span> <br>
+          <span class="name">Name:{{recipe.name}}</span><br>
+          <span class="preview">Preview:{{recipe.preview}}</span><br>
+          <span class="rating">Author:{{recipe.author}}</span><br>
+          @if(recipe.picpath) {
+            <img class="flag" [src]="recipe.picpath">
+          } @else {
+            Missing
+          }
+          <button type="button" routerLink="/recipe/{{recipe.id}}">
+            Details
+          </button>
+        </button>
+      </div>
+    }
+  </div>
+</div-->
+
+<div style="display: flex; justify-content: space-between; padding: 20px; gap: 20px;">
+  <!-- Recipe List -->
+  <div style="block-size: 50%; width: 70%;">
+    @for (recipe of tmprecipes; track recipe.name; let i = $index) {
+      <div #recipeDiv class="recipes" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; background-color: #fdfdfd; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <button type="button"
+                appRecipeButton
+                (click)="onSelect(recipe)"
+                [ngStyle]="recipe === selectedRecipe ? {color:'#000000'} : {color:'#ff5733'}"
+                [ngClass]="recipe === selectedRecipe ? 'selected-recipe' : ''"
+                style="width: 100%; text-align: left; border: none; background: none; cursor: pointer; padding: 0;">
+          <span class="id" style="font-weight: bold; font-size: 1.1em;">{{recipe.id}}.</span> <br>
+          <span class="name" style="font-size: 1.2em; font-weight: bold;">Name: {{recipe.name}}</span><br>
+          <span class="preview" style="font-size: 1em; color: #555;">Preview: {{recipe.preview}}</span><br>
+          <span class="rating" style="font-size: 1em; color: #555;">Author: {{recipe.author}}</span><br>
+          <div>
+            @if(recipe.picpath) {
+              <img class="flag" [src]="recipe.picpath" alt="Recipe Image" style="max-width: 100px; max-height: 100px; margin-top: 10px; border-radius: 5px;">
+            } @else {
+              <span style="color: #999; font-size: 0.9em;">Image Missing</span>
+            }
+          </div>
+          <div style="margin-top: 10px;">
+            <button type="button" routerLink="/recipe/{{recipe.id}}" style="padding: 8px 15px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+              Details
+            </button>
+          </div>
+          <div style="margin-top: 10px;">
+            <button type="button" (click)="addFavorite(recipe.id)" style="padding: 8px 15px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+              Add-favorite
+            </button>
+          </div>
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Search Bar -->
+  <div style="flex: 0 0 25%; max-width: 25%; text-align: right;">
+    <form>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        [ngModelOptions]="{standalone: true}"
+        placeholder="Search..."
+        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box;">
+      <button
+        type="button" (click)="search()"
+        style="width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Search
+      </button>
+    </form>
+  </div>
+</div>
+
+
+

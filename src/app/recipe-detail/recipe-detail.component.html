@@ -1,0 +1,37 @@
+@if(recipe){
+  <div class="recipe-container" >
+    <h1>{{recipe.name}}</h1>
+    <p class="recipe-description">{{ recipe.details.description }}</p>
+    @if(recipe.image) {
+      <img class="pic" [src]="recipe.image">
+    } @else {
+      Missing
+    }
+    <div class="recipe-section">
+      <h2>Ingredients</h2>
+      <ul class="ingredients-list">
+        @for (ingredient of recipe.details.ingredients;track ingredient.name;let i=$index){
+          <strong>{{ ingredient.name }}</strong>: {{ ingredient.description }}
+        }
+
+      </ul>
+    </div>
+
+    <div class="recipe-section">
+      <h2>Steps</h2>
+      <div class="steps-list">
+        @for (step of recipe.details.steps; track i; let i=$index){
+
+          <h3>Step {{ i }}</h3>
+          <p>{{ step.description }}</p>
+          <h4>Ingredients for this step:</h4>
+          @for (stepIngredient of step.ingredients; track stepIngredient.id;let j=$index){
+            <strong>{{ stepIngredient.name }}</strong>: {{ stepIngredient.description }}
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+}
+
